@@ -11,6 +11,6 @@ export default {
     'src/repos/repo.ts',
     'src/app.ts',
     'src/index.ts',
-    'src/routers/users.router.ts',
+    'src/routers/users.routes.ts',
   ],
 };
