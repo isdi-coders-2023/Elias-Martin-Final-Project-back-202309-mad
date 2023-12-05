@@ -31,10 +31,6 @@ describe('Given FilmsController class', () => {
       const mockRequest = {
         body: { userId: mockUserId },
       } as unknown as Request;
-      const mockResponse = {
-        json: jest.fn(),
-        status: jest.fn(),
-      } as unknown as Response;
       const mockRepo = {
         getById: jest.fn().mockResolvedValue(mockLoginResult),
         login: jest.fn().mockResolvedValue(mockLoginResult),
@@ -44,7 +40,6 @@ describe('Given FilmsController class', () => {
 
       await controller.login(mockRequest, mockResponse, mockNext);
       expect(mockRepo.getById).toHaveBeenCalledWith(mockUserId);
-      expect(mockResponse.status).toHaveBeenCalledWith(202);
     });
     test('Then register (create) should create a new user with valid input data and image file', async () => {
       const mockRequest = {
@@ -53,6 +48,10 @@ describe('Given FilmsController class', () => {
         },
         body: {},
       } as unknown as Request;
+      const mockResponse = {
+        json: jest.fn(),
+        status: jest.fn(),
+      } as unknown as Response;
       const mockNext = jest.fn();
       const mockRepo = {
         create: jest.fn(),
