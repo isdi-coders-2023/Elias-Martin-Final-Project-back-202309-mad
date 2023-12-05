@@ -59,20 +59,20 @@ describe('Given FilmsController class', () => {
       const mockRequest = {
         body: {
           email: 'test@example.com',
-          password: 'test123',
+          passwd: 'test',
         },
       } as unknown as Request;
 
       const mockUser = {
         email: 'TestName',
-        password: 'test123',
+        passwd: 'test',
       } as unknown as User;
       mockRepo.login.mockResolvedValueOnce(mockUser);
       await controller.login(mockRequest, mockResponse, mockNext);
 
       expect(mockRepo.login).toHaveBeenCalledWith({
         email: 'test@example.com',
-        password: 'test123',
+        passwd: 'test',
       });
       expect(mockResponse.status).toHaveBeenCalledWith(202);
       expect(mockResponse.json).toHaveBeenCalledWith({
