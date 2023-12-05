@@ -59,7 +59,7 @@ describe('Given FilmsController class', () => {
       const mockRequest = {
         body: {
           email: 'test@example.com',
-          password: 'passwd123',
+          password: 'test123',
         },
       } as unknown as Request;
 
@@ -72,7 +72,7 @@ describe('Given FilmsController class', () => {
 
       expect(mockRepo.login).toHaveBeenCalledWith({
         email: 'test@example.com',
-        password: 'passwd123',
+        password: 'test123',
       });
       expect(mockResponse.status).toHaveBeenCalledWith(202);
       expect(mockResponse.json).toHaveBeenCalledWith({
