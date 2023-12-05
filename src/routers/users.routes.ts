@@ -15,10 +15,19 @@ const controller = new UsersController(repo);
 const interceptor = new AuthInterceptor();
 const fileInterceptor = new FileInterceptor();
 
+// GetAll
 usersRouter.get(
   '/',
-  // Opcional interceptor.authorization.bind(interceptor),
+  interceptor.authorization.bind(interceptor),
+  interceptor.isAdmin.bind(interceptor),
   controller.getAll.bind(controller)
+);
+// GetById
+usersRouter.get(
+  '/:id',
+  interceptor.authorization.bind(interceptor),
+  interceptor.isAdmin.bind(interceptor),
+  controller.getById.bind(controller)
 );
 // Register
 usersRouter.post(

@@ -20,8 +20,7 @@ const usersSchema = new Schema<User>({
   age: {
     type: Number,
   },
-  // Duda: si está correcto el tipado de la ref
-  shoppingCart: [
+  clothes: [
     {
       type: Schema.Types.ObjectId,
       ref: 'ClothingItem',

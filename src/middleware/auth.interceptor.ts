@@ -2,7 +2,7 @@ import createDebug from 'debug';
 import { NextFunction, Request, Response } from 'express';
 import { HttpError } from '../types/http.error.js';
 import { Auth } from '../services/auth.js';
-import { ClothesMongoRepo } from '../repos/clothes/clothes.mongo.repo.js';
+// Temporary import { ClothesMongoRepo } from '../repos/clothes/clothes.mongo.repo.js';
 
 const debug = createDebug('EPV:auth:interceptor');
 
@@ -26,22 +26,22 @@ export class AuthInterceptor {
     }
   }
 
-  // Puede ser que no sea necesario (al integrar un user con el rol de Admin)
-  async authenticationClothes(req: Request, res: Response, next: NextFunction) {
-    try {
-      // Eres el usuario
-      const userID = req.body.userId; // Temp userId equivaldría a tokenUserId
-      // Quieres actuar sobre la prenda de ropa
-      const clothesID = req.params.id;
-      const repoClothes = new ClothesMongoRepo();
-      const clothingItem = await repoClothes.getById(clothesID);
-      if (clothingItem.creator.id !== userID)
-        throw new HttpError(401, 'Unauthorized', 'User not valid');
-      next();
-    } catch (error) {
-      next(error);
-    }
-  }
+  // Temporary // Puede ser que no sea necesario (al integrar un user con el rol de Admin)
+  // async authenticationClothes(req: Request, res: Response, next: NextFunction) {
+  //   try {
+  //     // Eres el usuario
+  //     const userID = req.body.userId; // Temp userId equivaldría a tokenUserId
+  //     // Quieres actuar sobre la prenda de ropa
+  //     const clothesID = req.params.id;
+  //     const repoClothes = new ClothesMongoRepo();
+  //     const clothingItem = await repoClothes.getById(clothesID);
+  //     if (clothingItem.creator.id !== userID)
+  //       throw new HttpError(401, 'Unauthorized', 'User not valid');
+  //     next();
+  //   } catch (error) {
+  //     next(error);
+  //   }
+  // }
 
   isAdmin(req: Request, res: Response, next: NextFunction) {
     try {

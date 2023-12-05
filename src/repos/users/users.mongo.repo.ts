@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 import createDebug from 'debug';
-import { Repository } from '../repo';
+import { Repository } from '../repo.js';
 import { LoginUser, User } from '../../entities/user.js';
 import { UserModel } from './users.mongo.model.js';
 import { HttpError } from '../../types/http.error.js';
@@ -13,6 +13,11 @@ export class UsersMongoRepo implements Repository<User> {
     debug('Instantiated');
   }
 
+  async getAll(): Promise<User[]> {
+    const result = await UserModel.find().exec();
+    return result;
+  }
+
   async create(newItem: Omit<User, 'id'>): Promise<User> {
     newItem.passwd = await Auth.hash(newItem.passwd);
     const result: User = await UserModel.create(newItem);
@@ -23,11 +28,6 @@ export class UsersMongoRepo implements Repository<User> {
     const result = await UserModel.findOne({ email: loginUser.email }).exec();
     if (!result || !(await Auth.compare(loginUser.passwd, result.passwd)))
       throw new HttpError(401, 'Unauthorized');
-    return result;
-  }
-
-  async getAll(): Promise<User[]> {
-    const result = await UserModel.find().exec();
     return result;
   }
 
@@ -54,7 +54,7 @@ export class UsersMongoRepo implements Repository<User> {
       | 'name'
       | 'surname'
       | 'age'
-      | 'shoppingCart'
+      | 'clothes'
       | keyof LoginUser;
     value: unknown;
   }): Promise<User[]> {
