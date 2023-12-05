@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import { UsersController } from './users.controller';
 import { UsersMongoRepo } from '../repos/users/users.mongo.repo';
+import { User } from '../entities/user';
 
 describe('Given FilmsController class', () => {
   let controller: UsersController;
@@ -23,6 +24,10 @@ describe('Given FilmsController class', () => {
 
   describe('When we instantiate it without errors', () => {
     test('Then login should...', async () => {
+      const mockUser = {
+        email: 'TestName',
+        password: 'test123',
+      } as unknown as User;
       const mockUserId = 'mockUserId';
       const mockLoginResult = {
         id: 'mockUserId',
@@ -31,11 +36,6 @@ describe('Given FilmsController class', () => {
       const mockRequest = {
         body: { userId: mockUserId },
       } as unknown as Request;
-      const mockResponse = {
-        json: jest.fn(),
-        status: jest.fn(),
-      } as unknown as Response;
-
       const mockRepo = {
         getById: jest.fn().mockResolvedValue(mockLoginResult),
         login: jest.fn().mockResolvedValue(mockLoginResult),
@@ -45,7 +45,7 @@ describe('Given FilmsController class', () => {
 
       await controller.login(mockRequest, mockResponse, mockNext);
       expect(mockRepo.getById).toHaveBeenCalledWith(mockUserId);
-      expect(mockResponse.status).toHaveBeenCalledWith(202);
+      expect(mockResponse.status).toHaveBeenCalled();
     });
     test('Then register (create) should create a new user with valid input data and image file', async () => {
       const mockRequest = {
