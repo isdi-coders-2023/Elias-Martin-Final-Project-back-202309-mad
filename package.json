@@ -1,12 +1,12 @@
 {
   "name": "final-project-elias-martin",
   "version": "1.0.0",
-  "description": "Final Project - Elías Martín - El Perro Vintage - ISDI Coders -",
+  "description": "Final Project - Elías Martín - El Perro Vintage - ISDI Coders",
   "type": "module",
   "main": "index.js",
   "scripts": {
     "start": "node dist/index.js",
-    "start:dev": "cross-env PORT=3500 DEBUG=W7E* nodemon dist/index.js",
+    "start:dev": "cross-env PORT=3800 DEBUG=EPV* nodemon dist/index.js",
     "build:render": "tsc",
     "build": "tsc -w",
     "test": "jest",
