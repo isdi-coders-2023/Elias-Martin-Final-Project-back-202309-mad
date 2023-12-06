@@ -24,7 +24,7 @@ describe('Given AuthInterceptor class', () => {
       const mockPayload = { id: 'userId123', role: 'user' };
       (Auth.verifyAndGetPayload as jest.Mock).mockReturnValue(mockPayload);
 
-      await authInterceptor.authorization(req, res, next);
+      authInterceptor.authorization(req, res, next);
 
       expect(Auth.verifyAndGetPayload).toHaveBeenCalledWith('validToken');
       expect(mockPayload).toStrictEqual({ id: 'userId123', role: 'user' });
@@ -38,7 +38,7 @@ describe('Given AuthInterceptor class', () => {
       const res = {} as Response;
       const next = jest.fn() as NextFunction;
 
-      await authInterceptor.authorization(req, res, next);
+      authInterceptor.authorization(req, res, next);
 
       expect(next).toHaveBeenCalledWith(expect.any(HttpError));
     });
