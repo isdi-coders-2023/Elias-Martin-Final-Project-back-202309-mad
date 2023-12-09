@@ -1,7 +1,7 @@
 {
-  "name": "final-project-elias-martin",
+  "name": "final-project-elias-martin-back",
   "version": "1.0.0",
-  "description": "Final Project - Elías Martín - El Perro Vintage - ISDI Coders",
+  "description": "Final Project Back - Elías Martín - El Perro Vintage - ISDI Coders",
   "type": "module",
   "main": "index.js",
   "scripts": {

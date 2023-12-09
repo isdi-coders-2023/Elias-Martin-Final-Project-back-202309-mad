@@ -44,8 +44,8 @@ describe('Given AuthInterceptor class', () => {
     });
   });
 
-  describe('', () => {
-    test('should call next when tokenRole is "Admin"', () => {
+  describe('When we use isAdmin method', () => {
+    test('Then should call next when tokenRole is "Admin"', () => {
       const req = { body: { tokenRole: 'Admin' } } as Request;
       const res = {} as Response;
       const next = jest.fn() as NextFunction;
@@ -54,7 +54,7 @@ describe('Given AuthInterceptor class', () => {
 
       expect(next).toHaveBeenCalled();
     });
-    test('should throw HttpError with status 403 when tokenRole is not "Admin"', () => {
+    test('Then should throw HttpError with status 403 when tokenRole is not "Admin"', () => {
       const req = { body: { tokenRole: 'User' } } as Request;
       const res = {} as Response;
       const next = jest.fn() as NextFunction;
