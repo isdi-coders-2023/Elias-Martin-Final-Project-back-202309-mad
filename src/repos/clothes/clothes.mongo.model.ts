@@ -36,7 +36,7 @@ const clothesSchema = new Schema<ClothingItem>({
   tares: {
     type: String,
   },
-  creator: {
+  author: {
     type: Schema.Types.ObjectId,
     ref: 'User',
   },

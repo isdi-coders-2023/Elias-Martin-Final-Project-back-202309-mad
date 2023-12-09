@@ -23,7 +23,7 @@ export class ClothesMongoRepo implements Repository<ClothingItem> {
     value: unknown;
   }): Promise<ClothingItem[]> {
     const result = await ClothingItemModel.find({ [key]: value })
-      .populate('creator', {
+      .populate('author', {
         clothes: 0,
       })
       .exec();
@@ -32,7 +32,7 @@ export class ClothesMongoRepo implements Repository<ClothingItem> {
 
   async getAll(): Promise<ClothingItem[]> {
     const result = await ClothingItemModel.find()
-      .populate('creator', {
+      .populate('author', {
         clothes: 0,
       })
       .exec();
@@ -41,7 +41,7 @@ export class ClothesMongoRepo implements Repository<ClothingItem> {
 
   async getById(id: string): Promise<ClothingItem> {
     const result = await ClothingItemModel.findById(id)
-      .populate('creator', {
+      .populate('author', {
         clothes: 0,
       })
       .exec();
@@ -50,11 +50,11 @@ export class ClothesMongoRepo implements Repository<ClothingItem> {
   }
 
   async create(newItem: Omit<ClothingItem, 'id'>): Promise<ClothingItem> {
-    const userID = newItem.creator.id;
+    const userID = newItem.author.id;
     const user = await this.usersRepo.getById(userID);
     const result: ClothingItem = await ClothingItemModel.create({
       ...newItem,
-      creator: userID,
+      author: userID,
     });
     // Esto está mal porque no quiero que me lo añada al carrito al crearlo
     user.clothes.push(result);
@@ -69,7 +69,7 @@ export class ClothesMongoRepo implements Repository<ClothingItem> {
     const result = await ClothingItemModel.findByIdAndUpdate(id, updatedItem, {
       new: true,
     })
-      .populate('creator', {
+      .populate('author', {
         clothes: 0,
       })
       .exec();
@@ -79,7 +79,7 @@ export class ClothesMongoRepo implements Repository<ClothingItem> {
 
   async delete(id: string): Promise<void> {
     const result = await ClothingItemModel.findByIdAndDelete(id)
-      .populate('creator', {
+      .populate('author', {
         clothes: 0,
       })
       .exec();
@@ -87,7 +87,7 @@ export class ClothesMongoRepo implements Repository<ClothingItem> {
       throw new HttpError(404, 'Not Found', 'Delete not possible');
     }
 
-    const userID = result.creator.id;
+    const userID = result.author.id;
     const user = await this.usersRepo.getById(userID);
     user.clothes = user.clothes.filter((item) => {
       const itemID = item as unknown as mongoose.mongo.ObjectId;
