@@ -37,7 +37,6 @@ export class UsersMongoRepo implements Repository<User> {
     return result;
   }
 
-  // NO IMPLEMENTADO
   async update(id: string, updatedItem: Partial<User>): Promise<User> {
     const result = await UserModel.findByIdAndUpdate(id, updatedItem, {
       new: true,

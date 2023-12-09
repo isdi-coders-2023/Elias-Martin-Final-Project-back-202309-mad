@@ -54,6 +54,12 @@ describe('Given UsersMongoRepo', () => {
       expect(exec).toHaveBeenCalled();
       expect(result).toBe('Test');
     });
+
+    test('Then it should execute update', async () => {
+      const result = await repo.update('', { name: 'TestName' });
+      expect(exec).toHaveBeenCalled();
+      expect(result).toBe('Test');
+    });
   });
 
   describe('When we isntantiate it WITH errors', () => {
@@ -65,6 +71,9 @@ describe('Given UsersMongoRepo', () => {
       UserModel.findOne = jest.fn().mockReturnValue({
         exec,
       });
+      UserModel.findByIdAndUpdate = jest.fn().mockReturnValue({
+        exec,
+      });
       repo = new UsersMongoRepo();
     });
     test('Then getById should throw an error', async () => {
@@ -73,6 +82,9 @@ describe('Given UsersMongoRepo', () => {
     });
     test('Then login should throw an error', async () => {
       expect(repo.login({} as User)).rejects.toThrow();
+    });
+    test('Then update should throw an error', async () => {
+      expect(repo.update('', {} as User)).rejects.toThrow();
     });
   });
 
@@ -83,10 +95,6 @@ describe('Given UsersMongoRepo', () => {
     test('Given delete method is unimplemented', async () => {
       const deleteMethod = () => repo.delete('');
       expect(deleteMethod).toThrow('Method not implemented.');
-    });
-    test('Given update method is unimplemented', async () => {
-      const updateMethod = () => repo.update('', {});
-      expect(updateMethod).toThrow('Method not implemented.');
     });
     test('Given search method is unimplemented', async () => {
       const searchMethod = () => repo.search({ key: 'id', value: '' });
