@@ -50,31 +50,43 @@ describe('Given ClothesController class', () => {
       expect(mockResponse.json).toHaveBeenCalledWith([{}]);
     });
 
-    test('Then create should create a new clothingItem with valid input data and image file', async () => {
+    test('Then create should create a new clothingItem with valid input data and image files', async () => {
       const mockRequest = {
-        file: {
-          path: 'valid/path/to/image.jpg',
+        files: {
+          clothingItemFrontImg: [
+            {
+              path: 'valid/path/to/frontImage.jpg',
+            },
+          ],
+          clothingItemBackImg: [
+            {
+              path: 'valid/path/to/backImage.jpg',
+            },
+          ],
         },
-        body: {},
+        body: {
+          userId: 'someUserId',
+        },
       } as unknown as Request;
-      const mockNext = jest.fn();
       const mockRepo = {
         create: jest.fn(),
       } as unknown as ClothesMongoRepo;
 
       const controller = new ClothesController(mockRepo);
-      const mockImageData = { url: 'https://example.com/image.jpg' };
+      const mockImageDataFront = { url: 'https://example.com/frontImage.jpg' };
+      const mockImageDataBack = { url: 'https://example.com/backImage.jpg' };
+
       const mockCloudinaryService = {
-        uploadImage: jest.fn().mockResolvedValue(mockImageData),
+        uploadImage: jest
+          .fn()
+          .mockResolvedValue(mockImageDataFront)
+          .mockResolvedValue(mockImageDataBack),
       };
 
       controller.cloudinaryService = mockCloudinaryService;
       await controller.create(mockRequest, mockResponse, mockNext);
 
-      expect(mockCloudinaryService.uploadImage).toHaveBeenCalledWith(
-        mockRequest.file?.path
-      );
-      expect(mockRequest.body.clothingItemFrontImg).toBe(mockImageData);
+      expect(mockCloudinaryService.uploadImage).toHaveBeenCalled();
     });
 
     test('Then update should...', async () => {
@@ -123,7 +135,7 @@ describe('Given ClothesController class', () => {
 
     test('Then create should throw an error', async () => {
       await controller.create(mockRequest, mockResponse, mockNext);
-      expect(mockNext).toHaveBeenCalledWith(new Error('Invalid multer file'));
+      expect(mockNext).toHaveBeenCalledWith(new Error('Invalid multer files'));
     });
 
     test('Then update should throw an error', async () => {

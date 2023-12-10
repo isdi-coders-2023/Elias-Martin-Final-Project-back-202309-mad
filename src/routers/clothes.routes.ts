@@ -27,7 +27,7 @@ clothesRouter.post(
   '/',
   interceptor.authorization.bind(interceptor),
   interceptor.isAdmin.bind(interceptor),
-  fileInterceptor.singleFileStore('clothingItemFrontImg').bind(fileInterceptor),
+  fileInterceptor.multiFileStore().bind(fileInterceptor),
   controller.create.bind(controller)
 );
 // Revisar para que lo pueda hacer el admin

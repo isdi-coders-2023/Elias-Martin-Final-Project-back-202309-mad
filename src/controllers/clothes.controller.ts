@@ -16,10 +16,23 @@ export class ClothesController extends Controller<ClothingItem> {
   async create(req: Request, res: Response, next: NextFunction) {
     try {
       req.body.author = { id: req.body.userId };
-      if (!req.file)
-        throw new HttpError(406, 'Not Acceptable', 'Invalid multer file');
-      const imgData = await this.cloudinaryService.uploadImage(req.file.path);
-      req.body.clothingItemFrontImg = imgData;
+
+      if (!req.files)
+        throw new HttpError(406, 'Not Acceptable', 'Invalid multer files');
+
+      // eslint-disable-next-line no-undef
+      const files = req.files as { [fieldname: string]: Express.Multer.File[] };
+
+      const clothingItemFrontImg = await this.cloudinaryService.uploadImage(
+        files.clothingItemFrontImg[0].path
+      );
+      const clothingItemBackImg = await this.cloudinaryService.uploadImage(
+        files.clothingItemBackImg[0].path
+      );
+
+      req.body.clothingItemFrontImg = clothingItemFrontImg;
+      req.body.clothingItemBackImg = clothingItemBackImg;
+
       super.create(req, res, next);
     } catch (error) {
       next(error);
