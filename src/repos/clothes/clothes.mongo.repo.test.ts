@@ -72,11 +72,6 @@ describe('Given ClothesMongoRepo', () => {
       expect(exec).toHaveBeenCalled();
       expect(result).toBe('Test');
     });
-    // Test('Then it should execute delete', async () => {
-    //   const result = await repo.delete('');
-    //   expect(exec).toHaveBeenCalled();
-    //   expect(result).toBe('Test');
-    // });
   });
 
   describe('When we isntantiate it WITH errors', () => {
