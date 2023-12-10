@@ -6,7 +6,7 @@ import { UsersMongoRepo } from '../users/users.mongo.repo';
 jest.mock('./clothes.mongo.model.js');
 
 describe('Given ClothesMongoRepo', () => {
-  let repo: ClothesMongoRepo;
+  let clothesRepo: ClothesMongoRepo;
 
   describe('When we isntantiate it without errors', () => {
     const exec = jest.fn().mockResolvedValue('Test');
@@ -34,17 +34,17 @@ describe('Given ClothesMongoRepo', () => {
         }),
       });
       ClothingItemModel.create = jest.fn().mockResolvedValue('Test');
-      repo = new ClothesMongoRepo();
+      clothesRepo = new ClothesMongoRepo();
     });
 
     test('Then it should execute getAll', async () => {
-      const result = await repo.getAll();
+      const result = await clothesRepo.getAll();
       expect(exec).toHaveBeenCalled();
       expect(result).toBe('Test');
     });
 
     test('Then it should execute getById', async () => {
-      const result = await repo.getById('');
+      const result = await clothesRepo.getById('');
       expect(exec).toHaveBeenCalled();
       expect(result).toBe('Test');
     });
@@ -54,7 +54,7 @@ describe('Given ClothesMongoRepo', () => {
         .fn()
         .mockResolvedValue({ clothes: [] });
       UsersMongoRepo.prototype.update = jest.fn();
-      const result = await repo.create({ author: {} } as Omit<
+      const result = await clothesRepo.create({ author: {} } as Omit<
         ClothingItem,
         'id'
       >);
@@ -62,13 +62,13 @@ describe('Given ClothesMongoRepo', () => {
     });
 
     test('Then it should execute search', async () => {
-      const result = await repo.search({ key: 'size', value: 'M' });
+      const result = await clothesRepo.search({ key: 'size', value: 'M' });
       expect(exec).toHaveBeenCalled();
       expect(result).toBe('Test');
     });
 
     test('Then it should execute update', async () => {
-      const result = await repo.update('', { name: 'Bomber' });
+      const result = await clothesRepo.update('', { name: 'Bomber' });
       expect(exec).toHaveBeenCalled();
       expect(result).toBe('Test');
     });
@@ -92,17 +92,17 @@ describe('Given ClothesMongoRepo', () => {
           exec,
         }),
       });
-      repo = new ClothesMongoRepo();
+      clothesRepo = new ClothesMongoRepo();
     });
 
     test('Then getById should throw an error', async () => {
-      expect(repo.getById('')).rejects.toThrow();
+      expect(clothesRepo.getById('')).rejects.toThrow();
     });
     test('Then update should throw an error', async () => {
-      expect(repo.update('', { name: 'Bomber' })).rejects.toThrow();
+      expect(clothesRepo.update('', { name: 'Bomber' })).rejects.toThrow();
     });
     test('Then delete should throw an error', async () => {
-      expect(repo.delete('')).rejects.toThrow();
+      expect(clothesRepo.delete('')).rejects.toThrow();
     });
   });
 });
