@@ -2,6 +2,7 @@ import { ClothesMongoRepo } from './clothes.mongo.repo';
 import { ClothingItemModel } from './clothes.mongo.model';
 import { ClothingItem } from '../../entities/clothingItem';
 import { UsersMongoRepo } from '../users/users.mongo.repo';
+import { HttpError } from '../../types/http.error';
 
 jest.mock('./clothes.mongo.model.js');
 
@@ -80,7 +81,11 @@ describe('Given ClothesMongoRepo', () => {
   });
 
   describe('When we isntantiate it WITH errors', () => {
-    const exec = jest.fn().mockRejectedValue(new Error('Test'));
+    const exec = jest
+      .fn()
+      .mockRejectedValue(
+        new HttpError(404, 'Not Found', 'Delete not possible')
+      );
     beforeEach(() => {
       ClothingItemModel.findById = jest.fn().mockReturnValue({
         populate: jest.fn().mockReturnValue({
@@ -101,13 +106,19 @@ describe('Given ClothesMongoRepo', () => {
     });
 
     test('Then getById should throw an error', async () => {
-      expect(repo.getById('')).rejects.toThrow();
+      expect(repo.getById('')).rejects.toThrow(
+        new HttpError(404, 'Not Found', 'Delete not possible')
+      );
     });
     test('Then update should throw an error', async () => {
-      expect(repo.update('', { name: 'Bomber' })).rejects.toThrow();
+      expect(repo.update('', { name: 'Bomber' })).rejects.toThrow(
+        new HttpError(404, 'Not Found', 'Delete not possible')
+      );
     });
     test('Then delete should throw an error', async () => {
-      expect(repo.delete('')).rejects.toThrow();
+      expect(repo.delete('')).rejects.toThrow(
+        new HttpError(404, 'Not Found', 'Delete not possible')
+      );
     });
   });
 });
