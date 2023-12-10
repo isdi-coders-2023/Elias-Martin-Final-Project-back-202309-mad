@@ -113,10 +113,10 @@ describe('Given FilmsController class', () => {
   describe('When we instantiate it with errors', () => {
     let mockError: Error;
     beforeEach(() => {
-      mockError = new Error('Invalid multer file');
+      mockError = new Error('Mock error');
       const mockRepo = {
         login: jest.fn().mockRejectedValue(mockError),
-        create: jest.fn().mockRejectedValue(mockError),
+        create: jest.fn().mockRejectedValue(new Error('Invalid multer file')),
       } as unknown as UsersMongoRepo;
 
       controller = new UsersController(mockRepo);
@@ -127,7 +127,7 @@ describe('Given FilmsController class', () => {
     });
     test('Then register (create) should throw an error', async () => {
       await controller.create(mockRequest, mockResponse, mockNext);
-      expect(mockNext).toHaveBeenCalledWith(mockError);
+      expect(mockNext).toHaveBeenCalledWith(new Error('Invalid multer file'));
     });
   });
 });
