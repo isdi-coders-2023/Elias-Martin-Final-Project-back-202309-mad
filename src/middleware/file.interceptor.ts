@@ -50,14 +50,9 @@ export class FileInterceptor {
 
     return (req: Request, res: Response, next: NextFunction) => {
       const previousBody = req.body;
-      middleware(req, res, (err) => {
-        if (err) {
-          next(err);
-        } else {
-          req.body = { ...previousBody, ...req.body };
-          next();
-        }
-      });
+      middleware(req, res, next);
+
+      req.body = { ...previousBody, ...req.body };
     };
   }
 }
