@@ -4,7 +4,7 @@ import { Repository } from '../repo.js';
 import { HttpError } from '../../types/http.error.js';
 import createDebug from 'debug';
 import { UsersMongoRepo } from '../users/users.mongo.repo.js';
-import mongoose from 'mongoose';
+import { UserModel } from '../users/users.mongo.model.js';
 
 const debug = createDebug('EPV:clothes:mongo:repo');
 
@@ -78,21 +78,15 @@ export class ClothesMongoRepo implements Repository<ClothingItem> {
   }
 
   async delete(id: string): Promise<void> {
-    const result = await ClothingItemModel.findByIdAndDelete(id)
-      .populate('author', {
-        clothes: 0,
-      })
-      .exec();
-    if (!result) {
+    const clothingItem = (await ClothingItemModel.findByIdAndDelete(
+      id
+    ).exec()) as unknown as ClothingItem;
+    if (!clothingItem) {
       throw new HttpError(404, 'Not Found', 'Delete not possible');
     }
 
-    const userID = result.author.id;
-    const user = await this.usersRepo.getById(userID);
-    user.clothes = user.clothes.filter((item) => {
-      const itemID = item as unknown as mongoose.mongo.ObjectId;
-      return itemID.toString() !== id;
-    });
-    await this.usersRepo.update(userID, user);
+    await UserModel.findByIdAndUpdate(clothingItem.author, {
+      $pull: { clothes: id },
+    }).exec();
   }
 }

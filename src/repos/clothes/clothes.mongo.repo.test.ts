@@ -2,8 +2,10 @@ import { ClothesMongoRepo } from './clothes.mongo.repo';
 import { ClothingItemModel } from './clothes.mongo.model';
 import { ClothingItem } from '../../entities/clothingItem';
 import { UsersMongoRepo } from '../users/users.mongo.repo';
+import { UserModel } from '../users/users.mongo.model';
 
 jest.mock('./clothes.mongo.model.js');
+jest.mock('../users/users.mongo.model.js');
 
 describe('Given ClothesMongoRepo', () => {
   let clothesRepo: ClothesMongoRepo;
@@ -28,11 +30,7 @@ describe('Given ClothesMongoRepo', () => {
           exec,
         }),
       });
-      ClothingItemModel.findByIdAndDelete = jest.fn().mockReturnValue({
-        populate: jest.fn().mockReturnValue({
-          exec,
-        }),
-      });
+
       ClothingItemModel.create = jest.fn().mockResolvedValue('Test');
       clothesRepo = new ClothesMongoRepo();
     });
@@ -72,6 +70,22 @@ describe('Given ClothesMongoRepo', () => {
       expect(exec).toHaveBeenCalled();
       expect(result).toBe('Test');
     });
+
+    test('Then should delete the clothingItem and remove it from the author clothes array', async () => {
+      const id = 'testId';
+      const exec = jest.fn().mockResolvedValue({});
+      ClothingItemModel.findByIdAndDelete = jest.fn().mockReturnValue({
+        exec,
+      });
+
+      UserModel.findByIdAndUpdate = jest.fn().mockReturnValue({
+        exec,
+      });
+      await clothesRepo.delete(id);
+
+      expect(ClothingItemModel.findByIdAndDelete).toHaveBeenCalledWith(id);
+      expect(UserModel.findByIdAndUpdate).toHaveBeenCalled();
+    });
   });
 
   describe('When we isntantiate it WITH errors', () => {
@@ -101,8 +115,13 @@ describe('Given ClothesMongoRepo', () => {
     test('Then update should throw an error', async () => {
       expect(clothesRepo.update('', { name: 'Bomber' })).rejects.toThrow();
     });
-    test('Then delete should throw an error', async () => {
-      expect(clothesRepo.delete('')).rejects.toThrow();
+    test('Then should throw an error if the clothingItem does not exist', async () => {
+      const id = 'testId';
+      ClothingItemModel.findByIdAndDelete = jest.fn().mockReturnValue({
+        exec,
+      });
+
+      await expect(clothesRepo.delete(id)).rejects.toThrow();
     });
   });
 });
