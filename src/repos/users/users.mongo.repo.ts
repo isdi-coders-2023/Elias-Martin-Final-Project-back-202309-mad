@@ -37,9 +37,12 @@ export class UsersMongoRepo implements Repository<User> {
     return result;
   }
 
-  // NO IMPLEMENTADO
-  update(_id: string, _updatedItem: Partial<User>): Promise<User> {
-    throw new Error('Method not implemented.');
+  async update(id: string, updatedItem: Partial<User>): Promise<User> {
+    const result = await UserModel.findByIdAndUpdate(id, updatedItem, {
+      new: true,
+    }).exec();
+    if (!result) throw new HttpError(404, 'Not Found', 'Update not possible');
+    return result;
   }
 
   // NO IMPLEMENTADO

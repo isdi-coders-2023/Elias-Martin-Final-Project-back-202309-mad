@@ -35,7 +35,7 @@ export class AuthInterceptor {
   //     const clothesID = req.params.id;
   //     const repoClothes = new ClothesMongoRepo();
   //     const clothingItem = await repoClothes.getById(clothesID);
-  //     if (clothingItem.creator.id !== userID)
+  //     if (clothingItem.author.id !== userID)
   //       throw new HttpError(401, 'Unauthorized', 'User not valid');
   //     next();
   //   } catch (error) {

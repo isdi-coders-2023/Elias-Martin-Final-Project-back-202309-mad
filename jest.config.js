@@ -6,11 +6,12 @@ export default {
   testPathIgnorePatterns: ['dist'],
   resolver: 'jest-ts-webcompat-resolver',
   coveragePathIgnorePatterns: [
-    'src/controllers/controller.ts',
     'src/repos/users/users.mongo.model.ts',
+    'src/repos/clothes/clothes.mongo.model.ts',
     'src/repos/repo.ts',
     'src/app.ts',
     'src/index.ts',
     'src/routers/users.routes.ts',
+    'src/routers/clothes.routes.ts',
   ],
 };

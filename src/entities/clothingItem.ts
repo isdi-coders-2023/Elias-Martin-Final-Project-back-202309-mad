@@ -11,5 +11,5 @@ export type ClothingItem = {
   clothingItemFrontImg: ImgData;
   clothingItemBackImg: ImgData;
   tares: string;
-  creator: User;
+  author: User;
 };
