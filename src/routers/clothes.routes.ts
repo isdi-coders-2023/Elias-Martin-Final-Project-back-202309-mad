@@ -35,6 +35,7 @@ clothesRouter.patch(
   '/:id',
   interceptor.authorization.bind(interceptor),
   interceptor.isAdmin.bind(interceptor),
+  fileInterceptor.multiFileStore().bind(fileInterceptor),
   controller.update.bind(controller)
 );
 clothesRouter.delete(
