@@ -56,7 +56,6 @@ export class ClothesMongoRepo implements Repository<ClothingItem> {
       ...newItem,
       author: userID,
     });
-    // Esto está mal porque no quiero que me lo añada al carrito al crearlo
     user.clothes.push(result);
     await this.usersRepo.update(userID, user);
     return result;

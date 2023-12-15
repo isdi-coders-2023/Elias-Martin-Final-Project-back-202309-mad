@@ -15,14 +15,9 @@ const controller = new ClothesController(repo);
 const interceptor = new AuthInterceptor();
 const fileInterceptor = new FileInterceptor();
 
-clothesRouter.get(
-  '/',
-  // Opcional interceptor.authorization.bind(interceptor),
-  controller.getAll.bind(controller)
-);
+clothesRouter.get('/', controller.getAll.bind(controller));
 clothesRouter.get('/search', controller.search.bind(controller));
 clothesRouter.get('/:id', controller.getById.bind(controller));
-// Revisar para cambiar por fields y que lo pueda hacer el admin
 clothesRouter.post(
   '/',
   interceptor.authorization.bind(interceptor),
@@ -30,7 +25,6 @@ clothesRouter.post(
   fileInterceptor.multiFileStore().bind(fileInterceptor),
   controller.create.bind(controller)
 );
-// Revisar para que lo pueda hacer el admin
 clothesRouter.patch(
   '/:id',
   interceptor.authorization.bind(interceptor),
@@ -41,8 +35,6 @@ clothesRouter.patch(
 clothesRouter.delete(
   '/:id',
   interceptor.authorization.bind(interceptor),
-  // Los usuarios borran lo suyo -> interceptor.authenticationClothes.bind(interceptor),
-  // Los admin pueden borrar
   interceptor.isAdmin.bind(interceptor),
   controller.delete.bind(controller)
 );
