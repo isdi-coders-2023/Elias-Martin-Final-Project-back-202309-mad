@@ -2,6 +2,7 @@ import { Request, Response, NextFunction } from 'express';
 import { ClothesController } from './clothes.controller';
 import { ClothesMongoRepo } from '../repos/clothes/clothes.mongo.repo';
 import { ClothingItemModel } from '../repos/clothes/clothes.mongo.model';
+import { HttpError } from '../types/http.error';
 
 describe('Given ClothesController class', () => {
   let controller: ClothesController;
@@ -214,19 +215,115 @@ describe('Given ClothesController class', () => {
       expect(mockNext).toHaveBeenCalledWith(mockError);
     });
 
-    test('Then create should throw an error', async () => {
+    test('Then create should call next with an error if req.file is not defined', async () => {
+      mockRequest.file = undefined;
+
       await controller.create(mockRequest, mockResponse, mockNext);
-      expect(mockNext).toHaveBeenCalledWith(new Error('Invalid multer files'));
+
+      expect(mockNext).toHaveBeenCalledWith(
+        new HttpError(406, 'Not Acceptable', 'Invalid multer files')
+      );
     });
 
     test('Then update should throw an error', async () => {
+      mockRequest.file = undefined;
+
       await controller.update(mockRequest, mockResponse, mockNext);
-      expect(mockNext).toHaveBeenCalledWith(new Error('Invalid multer files'));
+
+      expect(mockNext).toHaveBeenCalledWith(
+        new HttpError(406, 'Not Acceptable', 'Invalid multer files')
+      );
     });
 
-    test('Then delete should thrown an error', async () => {
+    test('Then delete should throw an error', async () => {
       await controller.delete(mockRequest, mockResponse, mockNext);
       expect(mockNext).toHaveBeenCalledWith(mockError);
+    });
+  });
+  describe('When creating a new clothingItem with valid input data and image files', () => {
+    test('Then create should handle repo.create error', async () => {
+      const mockRequest = {
+        files: {
+          clothingItemFrontImg: [
+            {
+              path: 'valid/path/to/frontImage.jpg',
+            },
+          ],
+          clothingItemBackImg: [
+            {
+              path: 'valid/path/to/backImage.jpg',
+            },
+          ],
+        },
+        body: {
+          userId: 'someUserId',
+        },
+      } as unknown as Request;
+
+      const mockRepo = {
+        create: jest.fn().mockRejectedValue(new Error('Create error')),
+      } as unknown as ClothesMongoRepo;
+
+      const controller = new ClothesController(mockRepo);
+      const mockCloudinaryService = {
+        uploadImage: jest.fn(),
+      };
+
+      controller.cloudinaryService = mockCloudinaryService;
+
+      await controller.create(mockRequest, mockResponse, mockNext);
+
+      expect(mockNext).toHaveBeenCalledWith(new Error('Create error'));
+    });
+  });
+  describe('When updating an existing clothingItem with valid input data and image files', () => {
+    test('Then update should handle repo.update error', async () => {
+      const mockRequest = {
+        files: {
+          clothingItemFrontImg: [
+            {
+              path: 'valid/path/to/frontImage.jpg',
+            },
+          ],
+          clothingItemBackImg: [
+            {
+              path: 'valid/path/to/backImage.jpg',
+            },
+          ],
+        },
+        body: {
+          userId: 'someUserId',
+        },
+        params: {
+          id: '1',
+        },
+      } as unknown as Request;
+
+      const mockRepo = {
+        update: jest.fn().mockRejectedValue(new Error('Update error')),
+      } as unknown as ClothesMongoRepo;
+
+      // Mock existing item
+      const mockExistingItem = {
+        clothingItemFrontImg:
+          'https://example.com/existingclothingItemFrontImg.jpg',
+        clothingItemBackImg:
+          'https://example.com/existingclothingItemBackImg.jpg',
+      };
+
+      const findByIdMock = jest.fn().mockResolvedValue(mockExistingItem);
+      (ClothingItemModel.findById as jest.Mock) = findByIdMock;
+
+      const controller = new ClothesController(mockRepo);
+      const mockCloudinaryService = {
+        uploadImage: jest.fn(),
+      };
+
+      controller.cloudinaryService = mockCloudinaryService;
+
+      await controller.update(mockRequest, mockResponse, mockNext);
+
+      expect(mockNext).toHaveBeenCalledWith(new Error('Update error'));
     });
   });
 });
