@@ -6,11 +6,11 @@ Realiza una app fullstack MERN con las siguientes características deseables:
 
 - Listado de items
 - Detalle de item (página aparte)
-- Crear item (página aparte con un formulario e imagen obligatoria con un campo tipo file)
-- Modificar item (mismo formulario que para crear)
-- Borrar item (se tiene que poder borrar desde el listado)
+- Crear item (página aparte con un formulario e imagen obligatoria con un campo tipo file).
+- Modificar item (mismo formulario que para crear).
+- Borrar item (se tiene que poder borrar desde el listado).
 - Paginación (puede ser el sistema clásico o un botón "Load more")
-- Filtros (en el propio listado, que filtre sin cambiar de página)
+- Filtros (en el propio listado, que filtre sin cambiar de página).
 - Login y registro de usuario
 - Feedbacks al usuario
 - Gestión de errores

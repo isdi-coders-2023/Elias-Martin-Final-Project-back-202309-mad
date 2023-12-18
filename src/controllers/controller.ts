@@ -33,6 +33,7 @@ export abstract class Controller<T extends { id: unknown }> {
         key: Object.entries(req.query)[0][0] as keyof T,
         value: Object.entries(req.query)[0][1],
       });
+
       res.json(result);
     } catch (error) {
       next(error);

@@ -45,7 +45,6 @@ export class UsersMongoRepo implements Repository<User> {
     return result;
   }
 
-  // NO IMPLEMENTADO
   search({
     key,
     value,
@@ -64,7 +63,6 @@ export class UsersMongoRepo implements Repository<User> {
     throw new Error('Method not implemented.');
   }
 
-  // NO IMPLEMENTADO
   delete(_id: string): Promise<void> {
     throw new Error('Method not implemented.');
   }
