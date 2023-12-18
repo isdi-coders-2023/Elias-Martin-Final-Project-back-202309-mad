@@ -6,6 +6,7 @@ export class FileInterceptor {
   singleFileStore(fileName = 'file', fileSize = 8_000_000) {
     const options: multer.Options = {
       storage: multer.diskStorage({
+        destination: './public/uploads',
         filename(_req, file, callback) {
           const prefix = crypto.randomUUID();
           callback(null, prefix + '-' + file.originalname);
