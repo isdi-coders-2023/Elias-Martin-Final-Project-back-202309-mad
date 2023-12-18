@@ -72,18 +72,15 @@ describe('Given ClothesController class', () => {
       const mockRepo = {
         create: jest.fn(),
       } as unknown as ClothesMongoRepo;
-
       const controller = new ClothesController(mockRepo);
       const mockImageDataFront = { url: 'https://example.com/frontImage.jpg' };
       const mockImageDataBack = { url: 'https://example.com/backImage.jpg' };
-
       const mockCloudinaryService = {
         uploadImage: jest
           .fn()
           .mockResolvedValue(mockImageDataFront)
           .mockResolvedValue(mockImageDataBack),
       };
-
       controller.cloudinaryService = mockCloudinaryService;
       await controller.create(mockRequest, mockResponse, mockNext);
 
@@ -115,28 +112,23 @@ describe('Given ClothesController class', () => {
       const mockRepo = {
         update: jest.fn(),
       } as unknown as ClothesMongoRepo;
-
       const controller = new ClothesController(mockRepo);
       const mockImageDataFront = { url: 'https://example.com/frontImage.jpg' };
       const mockImageDataBack = { url: 'https://example.com/backImage.jpg' };
-
       const mockExistingItem = {
         clothingItemFrontImg:
           'https://example.com/existingclothingItemFrontImg.jpg',
         clothingItemBackImg:
           'https://example.com/existingclothingItemBackImg.jpg',
       };
-
       const findByIdMock = jest.fn().mockResolvedValue(mockExistingItem);
       (ClothingItemModel.findById as jest.Mock) = findByIdMock;
-
       const mockCloudinaryService = {
         uploadImage: jest
           .fn()
           .mockResolvedValue(mockImageDataFront)
           .mockResolvedValue(mockImageDataBack),
       };
-
       controller.cloudinaryService = mockCloudinaryService;
       await controller.update(mockRequest, mockResponse, mockNext);
       expect(mockCloudinaryService.uploadImage).toHaveBeenCalled();
@@ -163,13 +155,10 @@ describe('Given ClothesController class', () => {
           id: '1',
         },
       } as unknown as Request;
-
       const mockRepo = {
         update: jest.fn(),
       } as unknown as ClothesMongoRepo;
-
       const controller = new ClothesController(mockRepo);
-
       await controller.update(mockRequest, mockResponse, mockNext);
 
       expect(mockRepo.update).toHaveBeenCalled();
@@ -217,9 +206,7 @@ describe('Given ClothesController class', () => {
 
     test('Then create should call next with an error if req.file is not defined', async () => {
       mockRequest.file = undefined;
-
       await controller.create(mockRequest, mockResponse, mockNext);
-
       expect(mockNext).toHaveBeenCalledWith(
         new HttpError(406, 'Not Acceptable', 'Invalid multer files')
       );
@@ -227,9 +214,7 @@ describe('Given ClothesController class', () => {
 
     test('Then update should throw an error', async () => {
       mockRequest.file = undefined;
-
       await controller.update(mockRequest, mockResponse, mockNext);
-
       expect(mockNext).toHaveBeenCalledWith(
         new HttpError(406, 'Not Acceptable', 'Invalid multer files')
       );
@@ -259,18 +244,14 @@ describe('Given ClothesController class', () => {
           userId: 'someUserId',
         },
       } as unknown as Request;
-
       const mockRepo = {
         create: jest.fn().mockRejectedValue(new Error('Create error')),
       } as unknown as ClothesMongoRepo;
-
       const controller = new ClothesController(mockRepo);
       const mockCloudinaryService = {
         uploadImage: jest.fn(),
       };
-
       controller.cloudinaryService = mockCloudinaryService;
-
       await controller.create(mockRequest, mockResponse, mockNext);
 
       expect(mockNext).toHaveBeenCalledWith(new Error('Create error'));
@@ -302,25 +283,19 @@ describe('Given ClothesController class', () => {
       const mockRepo = {
         update: jest.fn().mockRejectedValue(new Error('Update error')),
       } as unknown as ClothesMongoRepo;
-
-      // Mock existing item
       const mockExistingItem = {
         clothingItemFrontImg:
           'https://example.com/existingclothingItemFrontImg.jpg',
         clothingItemBackImg:
           'https://example.com/existingclothingItemBackImg.jpg',
       };
-
       const findByIdMock = jest.fn().mockResolvedValue(mockExistingItem);
       (ClothingItemModel.findById as jest.Mock) = findByIdMock;
-
       const controller = new ClothesController(mockRepo);
       const mockCloudinaryService = {
         uploadImage: jest.fn(),
       };
-
       controller.cloudinaryService = mockCloudinaryService;
-
       await controller.update(mockRequest, mockResponse, mockNext);
 
       expect(mockNext).toHaveBeenCalledWith(new Error('Update error'));

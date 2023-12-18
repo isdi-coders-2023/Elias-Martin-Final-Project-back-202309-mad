@@ -77,7 +77,6 @@ describe('Given UsersMongoRepo', () => {
       usersRepo = new UsersMongoRepo();
     });
     test('Then getById should throw an error', async () => {
-      // Cómo testear un error asíncrono
       expect(usersRepo.getById('' as string)).rejects.toThrow();
     });
     test('Then login should throw an error', async () => {

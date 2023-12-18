@@ -51,7 +51,6 @@ clothesSchema.set('toJSON', {
   },
 });
 
-// PUNTO CRÍTICO
 export const ClothingItemModel = model<ClothingItem>(
   'ClothingItem',
   clothesSchema,
