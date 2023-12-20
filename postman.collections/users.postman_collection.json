@@ -1,0 +1,162 @@
+{
+  "info": {
+    "_postman_id": "4a75280a-8f11-445c-a0b1-85c45b73fe31",
+    "name": "users",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "30810788"
+  },
+  "item": [
+    {
+      "name": "get users",
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      },
+      "request": {
+        "method": "GET",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:3800/users/",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3800",
+          "path": [
+            "users",
+            ""
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "get by id users",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:3800/users/:id",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3800",
+          "path": [
+            "users",
+            ":id"
+          ],
+          "variable": [
+            {
+              "key": "id",
+              "value": ""
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "register users",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "formdata",
+          "formdata": [
+            {
+              "key": "email",
+              "value": "user@gmail.com",
+              "type": "text"
+            },
+            {
+              "key": "passwd",
+              "value": "1234",
+              "type": "text"
+            },
+            {
+              "key": "name",
+              "value": "User",
+              "type": "text"
+            },
+            {
+              "key": "surname",
+              "value": "Normal",
+              "type": "text"
+            },
+            {
+              "key": "age",
+              "value": "33",
+              "type": "text"
+            },
+            {
+              "key": "avatar",
+              "type": "file",
+              "src": "/C:/Users/elias/OneDrive/Escritorio/El Perro Vintage/avatar2.png"
+            }
+          ]
+        },
+        "url": {
+          "raw": "http://localhost:3800/users/register",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3800",
+          "path": [
+            "users",
+            "register"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "login users",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"email\": \"user@gmail.com\",\r\n    \"passwd\": \"1234\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:3800/users/login",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3800",
+          "path": [
+            "users",
+            "login"
+          ]
+        }
+      },
+      "response": []
+    }
+  ]
+}
