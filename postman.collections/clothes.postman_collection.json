@@ -1,0 +1,277 @@
+{
+  "info": {
+    "_postman_id": "b366b1d2-02c6-49a7-8a75-a590ddab0dd2",
+    "name": "clothes",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "30810788"
+  },
+  "item": [
+    {
+      "name": "get clothes",
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      },
+      "request": {
+        "method": "GET",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:3800/clothes/",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3800",
+          "path": ["clothes", ""]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "get clothes by id",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:3800/clothes/:id",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3800",
+          "path": ["clothes", ":id"],
+          "variable": [
+            {
+              "key": "id",
+              "value": ""
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "search clothes",
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      },
+      "request": {
+        "method": "GET",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:3800/clothes/search?size=M",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3800",
+          "path": ["clothes", "search"],
+          "query": [
+            {
+              "key": "size",
+              "value": "M"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "post clothes with form data",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "userToken",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "formdata",
+          "formdata": [
+            {
+              "key": "name",
+              "value": "Cazadora bomber FC Barcelona 1992/1995",
+              "type": "text"
+            },
+            {
+              "key": "size",
+              "value": "L",
+              "type": "text"
+            },
+            {
+              "key": "price",
+              "value": "60€",
+              "type": "text"
+            },
+            {
+              "key": "clothingItemHeight",
+              "value": "60cm",
+              "type": "text"
+            },
+            {
+              "key": "clothingItemWidth",
+              "value": "55cm",
+              "type": "text"
+            },
+            {
+              "key": "clothingItemFrontImg",
+              "type": "file",
+              "src": "/C:/Users/elias/OneDrive/Escritorio/El Perro Vintage/clothes/1barcelonafront.png"
+            },
+            {
+              "key": "clothingItemBackImg",
+              "type": "file",
+              "src": "/C:/Users/elias/OneDrive/Escritorio/El Perro Vintage/clothes/1barcelonaback.png"
+            },
+            {
+              "key": "tares",
+              "value": "Pequeño desgaste en la manga derecha",
+              "type": "text"
+            }
+          ]
+        },
+        "url": {
+          "raw": "http://localhost:3800/clothes",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3800",
+          "path": ["clothes"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "update clothes with form data",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "userToken",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "PATCH",
+        "header": [],
+        "body": {
+          "mode": "formdata",
+          "formdata": [
+            {
+              "key": "name",
+              "value": "Update de ropa",
+              "type": "text"
+            },
+            {
+              "key": "size",
+              "value": "M",
+              "type": "text"
+            },
+            {
+              "key": "price",
+              "value": "60€",
+              "type": "text"
+            },
+            {
+              "key": "clothingItemHeight",
+              "value": "180cm",
+              "type": "text"
+            },
+            {
+              "key": "clothingItemWidth",
+              "value": "150cm",
+              "type": "text"
+            },
+            {
+              "key": "clothingItemFrontImg",
+              "type": "file",
+              "src": "/C:/Users/elias/OneDrive/Escritorio/El Perro Vintage/clothes/7adidasnascarfront.png"
+            },
+            {
+              "key": "clothingItemBackImg",
+              "type": "file",
+              "src": "/C:/Users/elias/OneDrive/Escritorio/El Perro Vintage/clothes/4astrolabioback.png"
+            },
+            {
+              "key": "tares",
+              "value": "Pequeño desgaste en la manga derecha",
+              "type": "text"
+            }
+          ]
+        },
+        "url": {
+          "raw": "http://localhost:3800/clothes/:id",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3800",
+          "path": ["clothes", ":id"],
+          "variable": [
+            {
+              "key": "id",
+              "value": ""
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "delete clothes",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "userToken",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "DELETE",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:3800/clothes/:id",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3800",
+          "path": ["clothes", ":id"],
+          "variable": [
+            {
+              "key": "id",
+              "value": ""
+            }
+          ]
+        }
+      },
+      "response": []
+    }
+  ]
+}

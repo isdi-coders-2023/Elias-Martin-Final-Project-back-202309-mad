@@ -24,6 +24,7 @@ export class MediaFiles {
         use_filename: true,
         unique_filename: false,
         overwrite: true,
+        format: 'webp',
       });
 
       const imgData: ImgData = {
